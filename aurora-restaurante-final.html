@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AURORA - Casa de Brasa & Mar | Restaurante Jardins SP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e0a;--card:#1a1812;--gold:#d4a574;--gold2:#b8894a;--text:#fff8ef;--muted:#9e9588;--green:#25D366}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:'Cormorant Garamond',serif}
+header{position:fixed;top:0;width:100%;padding:16px 6%;display:flex;justify-content:space-between;align-items:center;background:rgba(15,14,10,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,165,116,0.15);z-index:50}
+.logo{font-family:'Cormorant Garamond';font-weight:700;font-size:24px;letter-spacing:3px}
+.logo span{color:var(--gold)}
+.btn-wa{background:var(--gold);color:#0f0e0a;padding:10px 18px;border-radius:100px;text-decoration:none;font-weight:700;font-size:13px;letter-spacing:0.5px}
+.hero{min-height:95vh;display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;padding:120px 6% 60px}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding-top:100px}}
+.hero h1{font-size:clamp(48px,7vw,88px);line-height:0.9;letter-spacing:-1px}
+.hero h1 i{font-style:italic;color:var(--gold);font-weight:400}
+.badge{border:1px solid rgba(212,165,116,0.25);color:var(--gold);padding:6px 14px;border-radius:100px;font-size:11px;letter-spacing:2px;text-transform:uppercase;width:fit-content}
+.hero p{color:var(--muted);line-height:1.7;max-width:460px;margin:18px 0;font-size:16px}
+.btn{padding:14px 26px;border-radius:100px;text-decoration:none;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;transition:0.2s}
+.btn-gold{background:var(--gold);color:var(--bg)} .btn-gold:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-line{border:1px solid rgba(255,255,255,0.15);color:var(--text);background:transparent}
+.menu-section{padding:80px 6%;max-width:1300px;margin:auto}
+.cat-head{display:flex;justify-content:space-between;align-items:end;margin:50px 0 20px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px}
+.cat-head h2{font-size:36px} .cat-head span{color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:20px;transition:0.3s;cursor:pointer}
+.card:hover{border-color:rgba(212,165,116,0.3);transform:translateY(-2px)}
+.card h3{font-size:20px;margin:8px 0 6px} .card p{color:var(--muted);font-size:13px;line-height:1.5;min-height:38px}
+.price{color:var(--gold);font-weight:700;font-size:18px;font-family:'Cormorant Garamond'}
+.add{margin-top:14px;width:100%;padding:10px;border-radius:100px;border:1px solid rgba(212,165,116,0.3);background:transparent;color:var(--gold);font-weight:600;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+.add:hover{background:var(--gold);color:var(--bg)}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.active{display:flex}
+.modal-box{background:#1c1a14;border:1px solid rgba(212,165,116,0.2);border-radius:24px;max-width:520px;width:100%;max-height:90vh;overflow:auto}
+.modal-head{padding:20px 22px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center}
+.opt-group{padding:16px 22px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.opt-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.opt{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);margin-bottom:8px;cursor:pointer;transition:0.2s}
+.opt.active{border-color:var(--gold);background:rgba(212,165,116,0.1)}
+.opt small{color:var(--muted)}
+.qty-row{display:flex;align-items:center;gap:14px;justify-content:center;padding:14px}
+.qty-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:transparent;color:white;font-size:18px;cursor:pointer}
+.cart{position:fixed;right:0;top:0;bottom:0;width:100%;max-width:400px;background:#12100c;border-left:1px solid rgba(212,165,116,0.15);z-index:90;transform:translateX(100%);transition:0.35s;display:flex;flex-direction:column}
+.cart.open{transform:translateX(0)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:80;display:none}
+.overlay.show{display:block}
+.cart-item{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;gap:12px}
+.cart-total{padding:18px;border-top:1px solid rgba(255,255,255,0.08);background:var(--bg)}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">AURORA<span>.</span></div>
+<div style="display:flex;gap:12px;align-items:center">
+<span style="color:var(--muted);font-size:12px;display:none" id="cart-count-h">0 itens</span>
+<button onclick="toggleCart()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:white;padding:9px 14px;border-radius:100px;font-size:12px;cursor:pointer">🛍️ Sacola <b id="cart-n">0</b></button>
+<a class="btn-wa" href="https://wa.me/5511977220356" target="_blank">Reservas</a>
+</div>
+</header>
+
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="cart" id="cart">
+<div style="padding:18px 20px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center"><b style="font-family:Cormorant Garamond;font-size:22px">Sua Sacola</b><button onclick="toggleCart()" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:transparent;color:white;cursor:pointer">✕</button></div>
+<div id="cart-items" style="flex:1;overflow:auto"></div>
+<div class="cart-total">
+<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px"><span>Subtotal</span><span id="sub">R$ 0,00</span></div>
+<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:10px"><span>Entrega Jardins</span><span>R$ 12,00</span></div>
+<div style="display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin-bottom:14px"><span>Total</span><span id="tot" style="color:var(--gold)">R$ 0,00</span></div>
+<input id="c-nome" placeholder="Seu nome" style="width:100%;padding:12px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:white;margin-bottom:8px">
+<input id="c-end" placeholder="Endereço completo" style="width:100%;padding:12px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:white;margin-bottom:10px">
+<div style="display:flex;gap:8px;margin-bottom:12px"><button class="pay active" data-p="PIX" onclick="setPay(this)" style="flex:1;padding:10px;border-radius:100px;border:1px solid var(--gold);background:var(--gold);color:black;font-size:11px;font-weight:700">PIX</button><button class="pay" data-p="Cartão" onclick="setPay(this)" style="flex:1;padding:10px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:white;font-size:11px">CARTÃO</button><button class="pay" data-p="Dinheiro" onclick="setPay(this)" style="flex:1;padding:10px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:white;font-size:11px">DINHEIRO</button></div>
+<a id="btn-wa" href="#" target="_blank" style="display:block;text-align:center;padding:14px;border-radius:100px;background:var(--green);color:black;font-weight:800;text-decoration:none">Finalizar no WhatsApp →</a>
+<p style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px;letter-spacing:1px">PEDIDO VAI PARA 11 97722-0356 • PYTHON FLASK READY</p>
+</div>
+</div>
+
+<section class="hero">
+<div>
+<div class="badge">Jardins • São Paulo • Desde 2021</div>
+<h1>Casa de<br><i>Brasa & Mar</i></h1>
+<p>Restaurante de fogo e mar. Menu autoral, carnes maturadas na parrilla e pesca sustentável. Sistema de pedidos automático: escolhe tamanho, extras e ponto da carne, calcula ao vivo e envia direto pro WhatsApp da cozinha.</p>
+<div style="display:flex;gap:12px;margin-top:8px"><a class="btn btn-gold" href="#menu">Ver Cardápio →</a><a class="btn btn-line" href="https://wa.me/5511977220356?text=Quero%20reservar%20mesa%20na%20AURORA" target="_blank">Reservar Mesa</a></div>
+<div style="display:flex;gap:24px;margin-top:28px"><div><b style="font-family:Cormorant Garamond;font-size:22px">4.9 ★</b><br><span style="color:var(--muted);font-size:11px">Google • 842 avaliações</span></div><div><b style="font-family:Cormorant Garamond;font-size:22px">Python</b><br><span style="color:var(--muted);font-size:11px">Flask • Sistema de vendas</span></div><div><b style="font-family:Cormorant Garamond;font-size:22px">1 folha</b><br><span style="color:var(--muted);font-size:11px">HTML CSS JS puro</span></div></div>
+</div>
+<div style="background:linear-gradient(180deg,rgba(212,165,116,0.12),rgba(26,24,18,0.8));border:1px solid rgba(212,165,116,0.15);border-radius:28px;padding:22px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="background:var(--bg);border-radius:16px;padding:16px"><span style="font-size:24px">🔥</span><h4 style="margin:8px 0 4px">Brasa</h4><p style="color:var(--muted);font-size:12px">Parrilla 100% carvão, 12h de fogo</p></div>
+<div style="background:var(--bg);border-radius:16px;padding:16px"><span style="font-size:24px">🌊</span><h4 style="margin:8px 0 4px">Mar</h4><p style="color:var(--muted);font-size:12px">Pesca do dia, sustentável</p></div>
+<div style="background:var(--bg);border-radius:16px;padding:16px"><span style="font-size:24px">🛒</span><h4 style="margin:8px 0 4px">Venda Automática</h4><p style="color:var(--muted);font-size:12px">Carrinho calcula tudo sozinho</p></div>
+<div style="background:var(--bg);border-radius:16px;padding:16px"><span style="font-size:24px">🤖</span><h4 style="margin:8px 0 4px">WhatsApp API</h4><p style="color:var(--muted);font-size:12px">Pedido formatado pra cozinha</p></div>
+</div>
+<p style="margin-top:16px;color:var(--muted);font-size:11px;text-align:center;letter-spacing:1px">DEMO DE VENDAS POR DG PROGRAMMER • C C++ PYTHON</p>
+</div>
+</section>
+
+<section class="menu-section" id="menu">
+<div class="cat-head"><h2>Entradas</h2><span>Para começar</span></div>
+<div class="grid" id="grid-entradas"></div>
+
+<div class="cat-head"><h2>Brasa • Parrilla</h2><span>Multi-escolha: tamanho + ponto</span></div>
+<div class="grid" id="grid-brasa"></div>
+
+<div class="cat-head"><h2>Mar</h2><span>Pesca sustentável</span></div>
+<div class="grid" id="grid-mar"></div>
+
+<div class="cat-head"><h2>Para Adoçar</h2><span>Sobremesas</span></div>
+<div class="grid" id="grid-doce"></div>
+
+<div class="cat-head"><h2>Bar Aurora</h2><span>Coquetéis autorais</span></div>
+<div class="grid" id="grid-bar"></div>
+
+<div style="margin-top:70px;background:#1a1812;border:1px solid rgba(212,165,116,0.15);border-radius:24px;padding:28px">
+<h2 style="font-size:28px">Como este site vende sozinho?</h2>
+<p style="color:var(--muted);line-height:1.7;margin:12px 0">Este é um <b style="color:var(--text)">demo de vendas</b> que você pode mostrar para donos de restaurante. O cliente clica, escolhe, paga e o pedido cai no WhatsApp sem precisar de garçom.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px">
+<div style="background:var(--bg);padding:16px;border-radius:14px"><b>1. HTML/CSS/JS puro</b><p style="color:var(--muted);font-size:12px;margin-top:4px">1 folha só, abre instantâneo, sem 404, hospeda no GitHub Pages</p></div>
+<div style="background:var(--bg);padding:16px;border-radius:14px"><b>2. Sistema automático</b><p style="color:var(--muted);font-size:12px;margin-top:4px">Carrinho com multi-escolhas (P/M/G + extras + ponto) calcula R$ ao vivo</p></div>
+<div style="background:var(--bg);padding:16px;border-radius:14px"><b>3. Python Flask</b><p style="color:var(--muted);font-size:12px;margin-top:4px">Upgrade fácil: Flask salva pedidos, painel admin, estoque, relatório de vendas - venda como mensalidade</p></div>
+</div>
+<p style="margin-top:16px;color:var(--gold);font-size:12px">Demo por DG PROGRAMMER • C | C++ | Python | HTML CSS JS • WhatsApp (11) 97722-0356</p>
+</div>
+</section>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+<div class="modal-head"><div><h3 id="m-name" style="font-size:20px"></h3><p id="m-desc" style="color:var(--muted);font-size:12px;margin-top:2px"></p></div><button onclick="closeModal()" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:transparent;color:white;cursor:pointer">✕</button></div>
+<div id="m-body"></div>
+<div style="padding:18px 22px">
+<div class="qty-row"><button class="qty-btn" onclick="changeQ(-1)">−</button><span id="m-qty" style="font-weight:700">1</span><button class="qty-btn" onclick="changeQ(1)">+</button><span style="margin-left:auto;color:var(--muted);font-size:12px">Total: <b id="m-total" style="color:var(--gold);font-size:18px">R$ 0,00</b></span></div>
+<button onclick="addToCart()" style="width:100%;padding:14px;border-radius:100px;background:var(--gold);color:black;font-weight:800;border:none;cursor:pointer;letter-spacing:1px">ADICIONAR À SACOLA →</button>
+</div>
+</div>
+</div>
+
+<footer style="padding:40px 6%;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:var(--muted);font-size:11px;letter-spacing:1px">© 2026 AURORA CASA DE BRASA & MAR • DEMO POR DG PROGRAMMER • C C++ PYTHON • JARDINS - SP</footer>
+
+<script>
+const MENU = [
+{id:'e1',cat:'entradas',name:'Tartar de Salmão & Avocado',desc:'Salmão fresco, avocado, crispy tapioca, emulsão limão siciliano',price:48,emoji:'🐟'},
+{id:'e2',cat:'entradas',name:'Burrata da Casa Defumada',desc:'Burrata cremosa, tomates confitados, pesto manjericão',price:52,emoji:'🍅'},
+{id:'e3',cat:'entradas',name:'Arancini Negro',desc:'Risoto negro, muçarela búfala, aioli limão queimado',price:44,emoji:'🍘'},
+{id:'e4',cat:'entradas',name:'Ostra Fresca 6un',desc:'Mignonette champagne, dedo de moça',price:62,emoji:'🦪'},
+{id:'b1',cat:'brasa',name:'Ancho Black Angus 400g',desc:'Maturado 28 dias, chimichurri ervas',price:128,emoji:'🥩',isMeat:true},
+{id:'b2',cat:'brasa',name:'Chorizo Wagyu BMS 6',desc:'Wagyu brasileiro, purê mandioquinha trufado',price:168,emoji:'🥩',isMeat:true},
+{id:'b3',cat:'brasa',name:'Costela 12h de Brasa',desc:'Baixa temp, barbecue goiabada, vinagrete',price:112,emoji:'🍖',isMeat:true},
+{id:'b4',cat:'brasa',name:'Frango Caipira Brasa',desc:'Sobrecoxa desossada, milho tostado, laranja',price:84,emoji:'🍗',isMeat:true},
+{id:'m1',cat:'mar',name:'Peixe do Dia na Lenha',desc:'Pesca sustentável, legumes queimados, beurre blanc',price:98,emoji:'🐠'},
+{id:'m2',cat:'mar',name:'Polvo Grelhado & Batata',desc:'Polvo macio, batata confit, páprica defumada',price:118,emoji:'🐙'},
+{id:'m3',cat:'mar',name:'Moqueca Aurora',desc:'Peixe branco, leite coco tostado, dendê leve, arroz jasmim',price:92,emoji:'🍲'},
+{id:'m4',cat:'mar',name:'Arroz Negro Frutos do Mar',desc:'Tinta lula, camarões, lulas, vieiras',price:108,emoji:'🦐'},
+{id:'s1',cat:'doce',name:'Chocolate 70% & Flor Sal',desc:'Ganache, sorbet laranja, crumble amêndoas',price:36,emoji:'🍫'},
+{id:'s2',cat:'doce',name:'Pavlova Frutas Vermelhas',desc:'Merengue, creme diplomata, coulis quente',price:34,emoji:'🍓'},
+{id:'s3',cat:'doce',name:'Churros Queijo Coalho',desc:'Doce leite búfala, sorvete queijo',price:32,emoji:'🧀'},
+{id:'d1',cat:'bar',name:'Negroni Jardins',desc:'Gin, Campari, vermute jabuticaba',price:32,emoji:'🍸'},
+{id:'d2',cat:'bar',name:'Caipirinha Aurora',desc:'Cachaça branca, limão siciliano, rapadura',price:28,emoji:'🍋'},
+{id:'d3',cat:'bar',name:'Pisco & Pitanga',desc:'Pisco, pitanga fresca, espuma gengibre',price:34,emoji:'🍹'},
+];
+
+const SIZES = [{id:'P',label:'P • Individual',extra:0},{id:'M',label:'M • Para 2',extra:12},{id:'G',label:'G • Família',extra:24}];
+const EXTRAS = [{id:'fritas',name:'Fritas Trufadas',price:18},{id:'molho',name:'Molho Aurora',price:8},{id:'farofa',name:'Farofa Panko',price:10}];
+const PONTOS = ['Mal passada','Ao ponto para mal','Ao ponto','Ao ponto para bem','Bem passada'];
+
+let current = null;
+let selSize = SIZES[1];
+let selExtras = [];
+let selPonto = 'Ao ponto';
+let selObs = '';
+let selQty = 1;
+let cart = [];
+let pay = 'PIX';
+
+function render(){
+  const grids = {entradas:'grid-entradas',brasa:'grid-brasa',mar:'grid-mar',doce:'grid-doce',bar:'grid-bar'};
+  Object.entries(grids).forEach(([cat,id])=>{
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    MENU.filter(m=>m.cat===cat).forEach(item=>{
+      const d = document.createElement('div');
+      d.className='card';
+      d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:start"><span style="font-size:22px">${item.emoji}</span><span class="price">R$ ${item.price.toFixed(2)}</span></div><h3>${item.name}</h3><p>${item.desc}</p><button class="add" onclick="openModal('${item.id}')">Personalizar e adicionar</button>`;
+      el.appendChild(d);
+    });
+  });
+}
+
+function openModal(id){
+  current = MENU.find(m=>m.id===id);
+  selSize = SIZES[1]; selExtras=[]; selPonto='Ao ponto'; selObs=''; selQty=1;
+  document.getElementById('m-name').innerText = current.name;
+  document.getElementById('m-desc').innerText = current.desc;
+  const body = document.getElementById('m-body');
+  let html = '';
+  if(!current.cat.includes('bar')){
+    html += `<div class="opt-group"><div class="opt-title">Tamanho</div>${SIZES.map(s=>`<div class="opt ${s.id===selSize.id?'active':''}" onclick="pickSize('${s.id}')"><span>${s.label}</span><small>${s.extra?`+R$ ${s.extra}`:'incluído'}</small></div>`).join('')}</div>`;
+  }
+  if(current.isMeat){
+    html += `<div class="opt-group"><div class="opt-title">Ponto da carne</div>${PONTOS.map(p=>`<div class="opt ${p===selPonto?'active':''}" onclick="pickPonto('${p}')"><span>${p}</span></div>`).join('')}</div>`;
+  }
+  if(!current.cat.includes('bar')){
+    html += `<div class="opt-group"><div class="opt-title">Adicionais</div>${EXTRAS.map(e=>`<div class="opt ${selExtras.includes(e.id)?'active':''}" onclick="toggleExtra('${e.id}')"><span>${e.name}</span><small>+R$ ${e.price}</small></div>`).join('')}</div>`;
+  }
+  html += `<div class="opt-group"><div class="opt-title">Observações</div><textarea id="obs" placeholder="Ex: sem cebola, molho à parte..." style="width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:white;min-height:60px;resize:none" oninput="selObs=this.value"></textarea></div>`;
+  body.innerHTML = html;
+  updateModalTotal();
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+function pickSize(id){selSize=SIZES.find(s=>s.id===id); document.querySelectorAll('#m-body .opt-group:nth-child(1) .opt').forEach((el,i)=>{el.classList.toggle('active', SIZES[i].id===id)}); updateModalTotal()}
+function pickPonto(p){selPonto=p; event.currentTarget.parentElement.querySelectorAll('.opt').forEach(o=>o.classList.remove('active')); event.currentTarget.classList.add('active')}
+function toggleExtra(id){if(selExtras.includes(id)) selExtras=selExtras.filter(x=>x!==id); else selExtras.push(id); event.currentTarget.classList.toggle('active'); updateModalTotal()}
+function changeQ(d){selQty=Math.max(1,selQty+d); document.getElementById('m-qty').innerText=selQty; updateModalTotal()}
+function updateModalTotal(){ if(!current) return; let tot=current.price + (current.cat.includes('bar')?0:selSize.extra) + selExtras.reduce((s,id)=>s+(EXTRAS.find(e=>e.id===id)?.price||0),0); document.getElementById('m-total').innerText=`R$ ${(tot*selQty).toFixed(2)}`; }
+
+function addToCart(){
+  let unit = current.price + (current.cat.includes('bar')?0:selSize.extra) + selExtras.reduce((s,id)=>s+(EXTRAS.find(e=>e.id===id)?.price||0),0);
+  cart.push({uid:Date.now(),item:current,size:selSize,extras:EXTRAS.filter(e=>selExtras.includes(e.id)),ponto:current.isMeat?selPonto:null,obs:selObs,qty:selQty,unit});
+  closeModal(); renderCart(); toggleCart(true);
+}
+
+function renderCart(){
+  const el=document.getElementById('cart-items');
+  if(cart.length===0){el.innerHTML=`<div style="padding:60px 20px;text-align:center;color:var(--muted)"><div style="font-size:36px">🛍️</div><p style="margin-top:10px">Sua sacola está vazia</p></div>`}
+  else{
+    el.innerHTML = cart.map(c=>`<div class="cart-item"><div style="flex:1"><b style="font-size:13px">${c.qty}x ${c.item.name}</b><div style="font-size:11px;color:var(--muted);margin-top:2px">${c.size.id} ${c.ponto?`• ${c.ponto}`:''} ${c.extras.length?`• ${c.extras.map(e=>e.name).join(', ')}`:''} ${c.obs?`• Obs: ${c.obs}`:''}</div></div><div style="text-align:right"><div style="color:var(--gold);font-weight:700">R$ ${(c.unit*c.qty).toFixed(2)}</div><button onclick="removeCart(${c.uid})" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;margin-top:4px">remover</button></div></div>`).join('');
+  }
+  let sub=cart.reduce((s,c)=>s+c.unit*c.qty,0);
+  document.getElementById('sub').innerText=`R$ ${sub.toFixed(2)}`;
+  document.getElementById('tot').innerText=`R$ ${(sub + (sub?12:0)).toFixed(2)}`;
+  document.getElementById('cart-n').innerText=cart.reduce((s,c)=>s+c.qty,0);
+  let msg=`*AURORA - Pedido Novo*%0A%0A`;
+  cart.forEach(c=>{msg+=`• ${c.qty}x ${c.item.name} (${c.size.id}${c.ponto?` - ${c.ponto}`:''})%0A  ${c.extras.length?`Extras: ${c.extras.map(e=>e.name).join(', ')}%0A  `:''}${c.obs?`Obs: ${c.obs}%0A`:''}  R$ ${(c.unit*c.qty).toFixed(2)}%0A%0A`});
+  msg+=`Subtotal: R$ ${sub.toFixed(2)}%0AEntrega: R$ ${sub?12:0},00%0ATotal: R$ ${(sub + (sub?12:0)).toFixed(2)}%0A%0A`;
+  const nome=document.getElementById('c-nome').value||'Não informado';
+  const end=document.getElementById('c-end').value||'Não informado';
+  msg+=`Cliente: ${nome}%0AEndereço: ${end}%0APagamento: ${pay}%0A`;
+  document.getElementById('btn-wa').href=`https://wa.me/5511977220356?text=${msg}`;
+}
+
+function removeCart(uid){cart=cart.filter(c=>c.uid!==uid); renderCart()}
+function toggleCart(force){const c=document.getElementById('cart'),o=document.getElementById('overlay'); const open=c.classList.contains('open'); const should = force===true?true:force===false?false:!open; c.classList.toggle('open',should); o.classList.toggle('show',should)}
+function setPay(btn){document.querySelectorAll('.pay').forEach(b=>{b.style.background='transparent';b.style.color='white';b.style.borderColor='rgba(255,255,255,0.1)'}); btn.style.background='var(--gold)';btn.style.color='black';btn.style.borderColor='var(--gold)'; pay=btn.dataset.p; renderCart()}
+
+document.getElementById('c-nome').addEventListener('input',renderCart);
+document.getElementById('c-end').addEventListener('input',renderCart);
+render(); renderCart();
+</script>
+</body>
+</html>
