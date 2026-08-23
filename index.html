@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DG PROGRAMMER | Heitor Robert</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* COMANDOS:
+1. Salvar como index.html
+2. Abrir no navegador ou Live Server VS Code
+3. Hospedar: arrasta para Netlify / Vercel / GitHub Pages
+4. Projeto barbearia: link está no botão "Ver Site Ao Vivo" - troque o href para o arquivo da barbearia
+5. WhatsApp já configurado: wa.me/5511977220356
+*/
+:root{--bg:#050507;--card:#12121a;--purple:#7c3aed;--blue:#38bdf8;--text:#f8fafc;--muted:#94a3b8;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif}
+#stars{position:fixed;inset:0;z-index:-2}
+.nebula{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(120px);opacity:0.25;z-index:-1;pointer-events:none;transition:0.2s}
+.n1{background:radial-gradient(circle,var(--purple),transparent);top:-100px;left:-100px}
+.n2{background:radial-gradient(circle,var(--blue),transparent);bottom:-100px;right:-100px}
+header{position:fixed;top:0;width:100%;padding:18px 8%;display:flex;justify-content:space-between;align-items:center;background:rgba(5,5,7,0.6);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);z-index:10}
+.logo{font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-1px}
+.logo span{color:var(--purple)}
+nav{display:flex;gap:28px}
+nav a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+nav a:hover{color:var(--text)}
+.btn-wa{background:linear-gradient(90deg,var(--purple),var(--blue));padding:10px 18px;border-radius:20px;color:white;text-decoration:none;font-size:13px;font-weight:600}
+.cursor{position:fixed;width:20px;height:20px;border:1px solid var(--purple);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;box-shadow:0 0 20px var(--purple);transition:transform 0.1s}
+section{padding:120px 8%;max-width:1200px;margin:auto;position:relative}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,0.1);padding:6px 12px;border-radius:20px;font-size:11px;color:var(--muted);width:fit-content}
+.badge i{width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;box-shadow:0 0 8px #22c55e}
+.hero h1{font-size:clamp(40px,8vw,84px);line-height:0.9;letter-spacing:-3px}
+.grad{background:linear-gradient(90deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:18px;max-width:520px;line-height:1.6}
+.hero-actions{display:flex;gap:12px;margin-top:10px}
+.btn{padding:14px 22px;border-radius:12px;text-decoration:none;font-weight:600;font-size:14px;transition:0.2s}
+.btn-primary{background:var(--text);color:var(--bg)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(255,255,255,0.12);color:var(--text)}
+.stats{display:flex;gap:36px;margin-top:30px}
+.stat b{font-size:22px;display:block;font-family:'Space Grotesk'}
+.stat span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:28px}
+.card-glass{background:rgba(18,18,26,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px}
+.bar{height:3px;background:rgba(255,255,255,0.06);border-radius:10px;margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:10px}
+.projeto-destaque{max-width:680px;margin:40px auto;background:linear-gradient(180deg,rgba(124,58,237,0.15),rgba(18,18,26,0.9));border:1px solid rgba(124,58,237,0.3);border-radius:24px;padding:28px;cursor:pointer;transition:0.3s}
+.projeto-destaque:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(124,58,237,0.2)}
+.tag{font-size:10px;padding:4px 8px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);color:var(--muted);margin-right:6px}
+input,textarea{width:100%;background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px;color:var(--text);margin-bottom:12px;font-family:inherit}
+input:focus,textarea:focus{outline:none;border-color:var(--purple)}
+.reveal{opacity:0;transform:translateY(20px);transition:0.8s}
+.reveal.active{opacity:1;transform:translateY(0)}
+@media(max-width:768px){body{cursor:auto}.cursor{display:none}nav{display:none}.hero h1{letter-spacing:-1px}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="nebula n1" id="neb1"></div>
+<div class="nebula n2" id="neb2"></div>
+<div class="cursor" id="cursor"></div>
+
+<header>
+<div class="logo">DG<span>.</span></div>
+<nav><a href="#inicio">Início</a><a href="#sobre">Sobre</a><a href="#stack">Stack</a><a href="#projetos">Projeto</a></nav>
+<a class="btn-wa" href="https://wa.me/5511977220356" target="_blank">Fale comigo</a>
+</header>
+
+<section class="hero" id="inicio">
+<div class="badge"><i></i> Disponível para novos projetos • 1 ano de jornada</div>
+<h1>Heitor Robert<br><span class="grad">DG PROGRAMMER</span></h1>
+<p id="typing">Desenvolvedor C | Python | HTML | CSS | JS — Transformo lógica em interfaces que parecem galáxia.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#projetos">Ver Projeto →</a>
+<a class="btn btn-ghost" href="https://wa.me/5511977220356" target="_blank">WhatsApp</a>
+</div>
+<div class="stats">
+<div class="stat"><b>1+ Ano</b><span>De Código</span></div>
+<div class="stat"><b>20+ </b><span>Projetos</span></div>
+<div class="stat"><b>C • Python</b><span>Foco</span></div>
+</div>
+</section>
+
+<section id="sobre" class="reveal">
+<h2 style="font-size:36px;margin-bottom:16px">Sobre</h2>
+<p style="color:var(--muted);line-height:1.8;max-width:700px">Sou Heitor Robert, conhecido como DG PROGRAMMER. Há 1 ano mergulhei na programação. Meu foco não é ser fullstack genérico — domino fundamentos sólidos: lógica pesada com <b style="color:var(--text)">C</b>, automações e scripts com <b style="color:var(--text)">Python</b>, e interfaces modernas, minimalistas e rápidas com <b style="color:var(--text)">HTML, CSS e JavaScript vanilla</b>. Gosto de código que funciona, limpo e com estética galáxia dark.</p>
+</section>
+
+<section id="stack" class="reveal">
+<h2 style="font-size:36px">Stack Real</h2>
+<div class="grid">
+<div class="card-glass"><h3>C</h3><span style="color:var(--muted);font-size:12px">Lógica • Estrutura • Fundamentos</span><div class="bar"><i style="width:85%"></i></div></div>
+<div class="card-glass"><h3>Python</h3><span style="color:var(--muted);font-size:12px">Automação • Scripts • Bots</span><div class="bar"><i style="width:90%"></i></div></div>
+<div class="card-glass"><h3>HTML5</h3><span style="color:var(--muted);font-size:12px">Semântico • Acessível</span><div class="bar"><i style="width:95%"></i></div></div>
+<div class="card-glass"><h3>CSS3</h3><span style="color:var(--muted);font-size:12px">Animações • Responsivo • Galáxia</span><div class="bar"><i style="width:92%"></i></div></div>
+<div class="card-glass"><h3>JavaScript</h3><span style="color:var(--muted);font-size:12px">Vanilla • Interatividade</span><div class="bar"><i style="width:88%"></i></div></div>
+</div>
+</section>
+
+<section id="projetos" class="reveal" style="text-align:center">
+<h2 style="font-size:36px">Projeto em Destaque</h2>
+<p style="color:var(--muted);margin-top:8px">Veja o site ao vivo ou peça um orçamento</p>
+
+<div class="projeto-destaque" style="cursor:default">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+<span style="background:var(--purple);padding:4px 10px;border-radius:20px;font-size:11px">DESTAQUE</span>
+<span style="color:var(--muted);font-size:12px">2026</span>
+</div>
+<h3 style="font-size:28px;text-align:left">NOIR Barber Club</h3>
+<p style="color:var(--muted);text-align:left;margin:12px 0;line-height:1.6">Site de agendamento premium para barbearia, com sistema completo de horários, integração direta no seu WhatsApp (11) 97722-0356 e design dark luxo. Feito em arquivo único HTML/CSS/JS.</p>
+<div style="text-align:left;margin-bottom:18px">
+<span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">WhatsApp API</span>
+</div>
+<div style="display:flex;gap:10px">
+<a class="btn btn-primary" style="flex:1" href="#" onclick="abrirBarbearia(event)">Ver Site Ao Vivo →</a>
+<a class="btn btn-ghost" style="flex:1" href="#" onclick="pedirOrcamento(event)">Pedir Orçamento</a>
+</div>
+</div>
+</section>
+
+<section id="contato" class="reveal">
+<h2 style="font-size:36px;margin-bottom:16px">Vamos construir algo fora deste mundo?</h2>
+<div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:20px" id="contactGrid">
+<div>
+<input id="nome" placeholder="Seu nome">
+<input id="email" placeholder="Seu email">
+<textarea id="msg" rows="5" placeholder="Fale sobre seu projeto..."></textarea>
+<button class="btn btn-primary" style="width:100%" onclick="enviarWA()">Enviar no WhatsApp</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="card-glass"><b>WhatsApp</b><br><span style="color:var(--muted)">(11) 97722-0356</span></div>
+<div class="card-glass"><b>Email</b><br><span style="color:var(--muted)">dg.programmer@email.com</span></div>
+<div class="card-glass"><b>Local</b><br><span style="color:var(--muted)">São Paulo - SP • Remoto</span></div>
+</div>
+</div>
+</section>
+
+<footer style="padding:40px 8%;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:var(--muted);font-size:12px">© 2026 DG PROGRAMMER • Feito no espaço por Heitor Robert • C • Python • HTML • CSS • JS</footer>
+
+<script>
+// ESTRELAS
+const c=document.getElementById('stars'),ctx=c.getContext('2d');
+function resize(){c.width=innerWidth;c.height=innerHeight}resize();window.onresize=resize;
+let stars=[...Array(220)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+0.2,o:Math.random(),d:Math.random()*0.02}));
+function draw(){
+ctx.clearRect(0,0,c.width,c.height);
+stars.forEach(s=>{
+ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.o})`;ctx.fill();
+s.o+=s.d; if(s.o>1||s.o<0.1)s.d*=-1;
+s.y-=0.15; if(s.y<0){s.y=innerHeight;s.x=Math.random()*innerWidth}
+});
+requestAnimationFrame(draw)}draw();
+// PARALLAX NEBULA + CURSOR
+const neb1=document.getElementById('neb1'),neb2=document.getElementById('neb2'),cursor=document.getElementById('cursor');
+window.addEventListener('mousemove',e=>{
+const x=(e.clientX/innerWidth-0.5)*40, y=(e.clientY/innerHeight-0.5)*40;
+neb1.style.transform=`translate(${x}px,${y}px)`;neb2.style.transform=`translate(${-x}px,${-y}px)`;
+cursor.style.left=e.clientX-10+'px';cursor.style.top=e.clientY-10+'px';
+});
+function abrirBarbearia(e){
+if(e){e.preventDefault(); e.stopPropagation();}
+// Abre o site da barbearia - se tiver o arquivo noir.html na mesma pasta, abre ele. Senão abre a versão que você tem.
+try {
+  // Tenta abrir local
+  window.open('./noir-barber.html','_blank');
+} catch(err){}
+  // Fallback: abre o arquivo gerado (você pode trocar pelo link hospedado da barbearia)
+  setTimeout(()=> {
+    // Se você hospedar a barbearia, troque a linha abaixo pelo link dela
+    // window.open('https://seu-link-da-barbearia.vercel.app','_blank')
+  }, 100);
+}
+function pedirOrcamento(e){
+if(e){e.preventDefault(); e.stopPropagation();}
+const texto = encodeURIComponent("Olá DG! Vi seu projeto da barbearia NOIR Barber Club no seu portfólio e quero pedir um orçamento para um site igual. Meu negócio é de barbearia também.");
+window.open(`https://wa.me/5511977220356?text=${texto}`,'_blank');
+}
+function enviarWA(){
+const n=document.getElementById('nome').value, e=document.getElementById('email').value, m=document.getElementById('msg').value;
+if(!n||!m){alert('Preencha nome e mensagem');return}
+const txt=`Olá DG PROGRAMMER!%0A%0ANome: ${n}%0AEmail: ${e}%0AMensagem: ${m}%0A%0AVi seu portfólio galáxia`;
+window.open(`https://wa.me/5511977220356?text=${txt}`,'_blank');
+}
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('active')}),{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// RESPONSIVO CONTACT
+if(innerWidth<800)document.getElementById('contactGrid').style.gridTemplateColumns='1fr';
+</script>
+</body>
+</html>
